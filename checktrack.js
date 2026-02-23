@@ -24,21 +24,32 @@ if (existsSync(adaPath)) {
   console.log("❌ Dossier ada");
 }
 
-//Pour répéter sur les autres projets de track.json:
+//Pour répéter sur les autres projets de track.json: il vérifie l'itinialisation git seuelement si le dossier existe:
 for (let project of track.projects) {
-  const projectPath = join(adaPath, project.name);
+  const projectPath = join(adaPath, project.name); //vérifier l'existence et stocker les chemins des dossiers
+  const gitPath = join(adaPath, project.name, ".git"); //vérifier l'existence et stocker le chemin du git
+
   //console.log(projectPath);
   if (existsSync(projectPath)) {
-    console.log("✅Dossier " + project.name);
+    console.log("✅Dossier du projet : " + project.name);
+    if (existsSync(gitPath)) {
+    } else {
+      console.log("- le repository git n'est pas initialisé");
+    }
   } else {
-    console.log("❌ Dossier " + project.name);
+    console.log("❌ Dossier du projet : " + project.name);
+    console.log("- le dossier n'existe pas ou n'est pas nommé correctement");
   }
 
-  const gitPath = join(adaPath, project.name, ".git");
-
-  if (existsSync(gitPath)) {
-    console.log("✅Dossier " + project.name + "✅ git ");
-  } else {
-    console.log("❌ Dossier " + project.name + "❌ git");
+  for (let file of project.required) {
+    const filePath = join(projectPath, file);
+    if (existsSync(filePath)) {
+    } else {
+      console.log("-il manque " + file);
+    }
   }
 }
+
+//Compteur pourcentage :
+const numberProject = projects.lenght;
+let acheviedProject = (acheviedProject / numberProject) * 100;
