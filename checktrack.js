@@ -24,7 +24,7 @@ if (existsSync(adaPath)) {
   console.log("❌ Dossier ada");
 }
 
-//pour pour répéter sur les autres projets de track.json:
+//Pour répéter sur les autres projets de track.json:
 for (let project of track.projects) {
   const projectPath = join(adaPath, project.name);
   //console.log(projectPath);
@@ -32,5 +32,13 @@ for (let project of track.projects) {
     console.log("✅Dossier " + project.name);
   } else {
     console.log("❌ Dossier " + project.name);
+  }
+
+  const gitPath = join(adaPath, project.name, ".git");
+
+  if (existsSync(gitPath)) {
+    console.log("✅Dossier " + project.name + "✅ git ");
+  } else {
+    console.log("❌ Dossier " + project.name + "❌ git");
   }
 }
