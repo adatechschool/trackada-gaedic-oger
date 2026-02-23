@@ -25,5 +25,12 @@ if (existsSync(adaPath)) {
 }
 
 //pour pour répéter sur les autres projets de track.json:
-for (project of track.projects) {
+for (let project of track.projects) {
+  const projectPath = join(adaPath, project.name);
+  //console.log(projectPath);
+  if (existsSync(projectPath)) {
+    console.log("✅Dossier " + project.name);
+  } else {
+    console.log("❌ Dossier " + project.name);
+  }
 }
