@@ -1,42 +1,47 @@
-// ES Modules
+// Import des module Node.js (ES Modules)
 
-// (File System) — pour interagir avec les fichiers et dossiers
+// Depuis File System (fs) — pour interagir avec les fichiers et dossiers
 import { readFileSync, existsSync } from "fs";
-// (path) - pour manipuler les chemins de fichiers
+// Depuis Path (path) - pour manipuler les chemins de fichiers
 import { join } from "path";
-// (Operating System) — pour obtenir des infos sur le système
-// équivalent du "~" dans le terminal.
+// Depuis Operating System (os) — pour obtenir des infos sur le système
+// Le chemin d'accès home "C:\Users\Gaedic" sur Windows
+//(C'est l'équivalent du "~" dans le terminal.)
 import { homedir } from "os";
 
+// Je déclare la variable data pour lire le fichier json et indiquer avec quels caractères.
 const data = readFileSync("track.json", "utf-8");
-const track = JSON.parse(data);
+const track = JSON.parse(data); //Je déclare la variable track qui permet de parser le fichier json afin de le trasnformer en fichier JS lisible.
 //console.log(track);
 
-const home = homedir(); //stocker le chemin home
+const home = homedir(); //Je déclare une variable pour stocker le chemin home
 //console.log(home);
-const adaPath = join(home, "documents", "ada");
+const adaPath = join(home, "documents", "ada"); // Je déclare une variable pour stocker le chemin vers le dossier principal ada.
 //console.log(adaPath);
 
-//Condition est-ce que le dossier existe :
+//Je veux vérifier si mon dossier principal ada existe :
 if (existsSync(adaPath)) {
   console.log("✅ Dossier ada");
 } else {
   console.log("❌ Dossier ada");
 }
 
-//Compteur pourcentage :
-const numberProject = track.projects.length; // je stocke le nombre de projet total
+//Pour compteur de progression : Je déclare une variable pour stocker le nombre de projets contenus dans le fichier
+const numberProject = track.projects.length; // je stocke le nombre de projet total comptés grâce à .length
 //console.log(numberProject);
 
-let acheviedProject = 0; //je stocke le nombre de projet achevés
+let acheviedProject = 0; //je stocke le nombre de projet achevés une fois les conditions suivantes remplies :
 
-//Pour répéter sur les autres projets de track.json: il vérifie l'itinialisation git seulement si le dossier existe:
+//Boucle: Itérer sur l'ensemble des projets contenus dans track : c'est un tableau d'objet, on utilise une boucle for of.
 for (let project of track.projects) {
-  const projectPath = join(adaPath, project.name); //vérifier l'existence et stocker les chemins des dossiers
-  const gitPath = join(adaPath, project.name, ".git"); //vérifier l'existence et stocker le chemin du git
+  //Je déclare une variable projet sur laquelle itérer
+  const projectPath = join(adaPath, project.name); //pour vérifier l'existence et stocker les chemins des dossiers grâce à join
+  const gitPath = join(adaPath, project.name, ".git"); //pour vérifier l'existence et stocker le chemin
+  // du git grâce à join, on ajouter ".git" car le chemin n'existe pas dans le track
   //console.log(projectPath);
 
   if (existsSync(projectPath)) {
+    //
     console.log("✅Dossier du projet : " + project.name);
     if (existsSync(gitPath)) {
       acheviedProject += 1; //J'itère dans ma variable pour chaque projets réalisés
