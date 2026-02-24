@@ -34,22 +34,27 @@ let acheviedProject = 0; //je stocke le nombre de projet achevés une fois les c
 
 //Boucle: Itérer sur l'ensemble des projets contenus dans track : c'est un tableau d'objet, on utilise une boucle for of.
 for (let project of track.projects) {
-  //Je déclare une variable projet sur laquelle itérer
+  //Je déclare une variable projet sur laquelle itérer:
   const projectPath = join(adaPath, project.name); //pour vérifier l'existence et stocker les chemins des dossiers grâce à join
   const gitPath = join(adaPath, project.name, ".git"); //pour vérifier l'existence et stocker le chemin
   // du git grâce à join, on ajouter ".git" car le chemin n'existe pas dans le track
   //console.log(projectPath);
+  let projectReady = true;
 
   if (existsSync(projectPath)) {
-    //
-    console.log("✅Dossier du projet : " + project.name);
+    //si le chemin du projet existe :
+    console.log("✅Dossier du projet : " + project.name); // affiche ok
     if (existsSync(gitPath)) {
-      acheviedProject += 1; //J'itère dans ma variable pour chaque projets réalisés
+      //si le chemin du git existe (on affiche rien)
     } else {
-      console.log("- le repository git n'est pas initialisé");
+      //sinon
+      projectReady = false;
+      console.log("- le repository git n'est pas initialisé"); //affiche que git n'est pas initialisé
     }
   } else {
-    console.log("❌ Dossier du projet : " + project.name);
+    //sinon
+    projectReady = false;
+    console.log("❌ Dossier du projet : " + project.name); //affiche le dossier manquant
     console.log("- le dossier n'existe pas ou n'est pas nommé correctement");
   }
 
@@ -57,21 +62,24 @@ for (let project of track.projects) {
     const filePath = join(projectPath, file);
     if (existsSync(filePath)) {
     } else {
+      projectReady = false;
       console.log("-il manque " + file);
     }
   }
-  //déclarer une variable qui vérifie si tout est vrai ?
-  //incrémenter une variable si c'est vrai
+
+  if (projectReady) {
+    acheviedProject += 1; //J'itère dans ma variable pour chaque projets réalisés si tous les chemins existent.
+  }
+
+  //affichage compteur :
+
+  console.log(
+    (acheviedProject / numberProject) * 100 +
+      " % " +
+      "de projets initialisés correctement (" +
+      acheviedProject +
+      "/" +
+      numberProject +
+      ")",
+  );
 }
-
-//affichage compteur :
-
-console.log(
-  (acheviedProject / numberProject) * 100 +
-    " % " +
-    "de projets initialisés correctement (" +
-    acheviedProject +
-    "/" +
-    numberProject +
-    ")",
-);
