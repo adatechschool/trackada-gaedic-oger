@@ -21,7 +21,7 @@ const adaPath = join(home, "documents", "ada"); // Je déclare une variable pour
 
 //Je veux vérifier si mon dossier principal ada existe :
 if (existsSync(adaPath)) {
-  console.log("✅ Dossier ada");
+  console.log("✅ \x1b[32m Dossier ada \x1b[0m");
 } else {
   console.log("❌ Dossier ada");
 }
@@ -35,51 +35,56 @@ let acheviedProject = 0; //je stocke le nombre de projet achevés une fois les c
 //Boucle: Itérer sur l'ensemble des projets contenus dans track : c'est un tableau d'objet, on utilise une boucle for of.
 for (let project of track.projects) {
   //Je déclare une variable projet sur laquelle itérer:
+  let projectReady = true;
   const projectPath = join(adaPath, project.name); //pour vérifier l'existence et stocker les chemins des dossiers grâce à join
   const gitPath = join(adaPath, project.name, ".git"); //pour vérifier l'existence et stocker le chemin
   // du git grâce à join, on ajouter ".git" car le chemin n'existe pas dans le track
   //console.log(projectPath);
-  let projectReady = true;
 
   if (existsSync(projectPath)) {
     //si le chemin du projet existe :
-    console.log("✅Dossier du projet : " + project.name); // affiche ok
+    console.log("✅ \x1b[32m Dossier du projet : " + project.name + " \x1b[0m"); // affiche ok
     if (existsSync(gitPath)) {
       //si le chemin du git existe (on affiche rien)
     } else {
       //sinon
-      projectReady = false;
       console.log("- le repository git n'est pas initialisé"); //affiche que git n'est pas initialisé
+      projectReady = false;
     }
   } else {
     //sinon
-    projectReady = false;
     console.log("❌ Dossier du projet : " + project.name); //affiche le dossier manquant
     console.log("- le dossier n'existe pas ou n'est pas nommé correctement");
+    projectReady = false;
   }
 
   for (let file of project.required) {
-    const filePath = join(projectPath, file);
+    //Boucle pour entrer dans le tableau required et vérifier les fichiers contenus dans required
+    const filePath = join(projectPath, file); //stocker le chemin des fichiers
     if (existsSync(filePath)) {
+      //si le fichier existe
     } else {
-      projectReady = false;
+      //sinon
       console.log("-il manque " + file);
+      projectReady = false;
     }
   }
 
   if (projectReady) {
+    //Si mon projet est ok (true)
     acheviedProject += 1; //J'itère dans ma variable pour chaque projets réalisés si tous les chemins existent.
   }
 
   //affichage compteur :
-
-  console.log(
-    (acheviedProject / numberProject) * 100 +
-      " % " +
-      "de projets initialisés correctement (" +
-      acheviedProject +
-      "/" +
-      numberProject +
-      ")",
-  );
 }
+
+console.log(
+  "\x1b[95m " +
+    (acheviedProject / numberProject) * 100 +
+    " % " +
+    "de projets initialisés correctement (" +
+    acheviedProject +
+    "/" +
+    numberProject +
+    ")\x1b[0m",
+);
