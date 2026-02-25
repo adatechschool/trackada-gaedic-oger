@@ -65,14 +65,16 @@ for (let project of track.projects) {
       //si le fichier existe
     } else {
       //sinon
-      console.log("-il manque " + project.required.join(", "));
       projectReady = false;
+      //console.log("-il manque " + project.required.join(", "));
     }
   }
 
   if (projectReady) {
     //Si mon projet est ok (true)
     acheviedProject += 1; //J'itère dans ma variable pour chaque projets réalisés si tous les chemins existent.
+  } else {
+    console.log("- il manque " + project.required.join(", "));
   }
 
   //affichage compteur :
