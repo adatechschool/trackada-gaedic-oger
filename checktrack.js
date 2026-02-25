@@ -65,7 +65,7 @@ for (let project of track.projects) {
       //si le fichier existe
     } else {
       //sinon
-      console.log("-il manque " + file);
+      console.log("-il manque " + project.required.join(", "));
       projectReady = false;
     }
   }
