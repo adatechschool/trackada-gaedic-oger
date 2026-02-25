@@ -57,6 +57,7 @@ for (let project of track.projects) {
     console.log("- le dossier n'existe pas ou n'est pas nommé correctement");
     projectReady = false;
   }
+  let missingFiles = [];
 
   for (let file of project.required) {
     //Boucle pour entrer dans le tableau required et vérifier les fichiers contenus dans required
@@ -65,19 +66,17 @@ for (let project of track.projects) {
       //si le fichier existe
     } else {
       //sinon
+      missingFiles.push(file);
       projectReady = false;
-      //console.log("-il manque " + project.required.join(", "));
     }
   }
 
   if (projectReady) {
     //Si mon projet est ok (true)
     acheviedProject += 1; //J'itère dans ma variable pour chaque projets réalisés si tous les chemins existent.
-  } else {
-    console.log("- il manque " + project.required.join(", "));
-  }
+  } else { console.log("- il manque " + missingFiles.join(", "));}
 
-  //affichage compteur :
+  //Affichage compteur :
 }
 
 console.log(
