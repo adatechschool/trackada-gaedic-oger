@@ -74,14 +74,18 @@ for (let project of track.projects) {
   if (projectReady) {
     //Si mon projet est ok (true)
     acheviedProject += 1; //J'itère dans ma variable pour chaque projets réalisés si tous les chemins existent.
-  } else { console.log("- il manque " + missingFiles.join(", "));}
+  }
+    
+    if (missingFiles.length !== 0) { 
+    console.log("- il manque " + missingFiles.join(", "));
+  }
 
   //Affichage compteur :
 }
 
 console.log(
   "\x1b[95m " +
-    (acheviedProject / numberProject) * 100 +
+    Math.round((acheviedProject / numberProject) * 100) +
     " % " +
     "de projets initialisés correctement (" +
     acheviedProject +
