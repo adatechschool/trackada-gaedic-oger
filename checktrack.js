@@ -75,17 +75,24 @@ for (let project of track.projects) {
     //Si mon projet est ok (true)
     acheviedProject += 1; //J'itère dans ma variable pour chaque projets réalisés si tous les chemins existent.
   }
-    
-    if (missingFiles.length !== 0) { 
-    console.log("- il manque " + missingFiles.join(", "));
-  }
 
-  //Affichage compteur :
+
+
+  //Si missing files n'est pas vide, alors seulement on affiche le console log sous certaines conditions
+  if (missingFiles.length ===1) { //Si missing files est strictement egal à 1
+    //On affiche la seule valeur de l'array à l'index 0:
+    console.log("- il manque :" + missingFiles[0])
+  } else if (missingFiles.length >1) { //sinon si missing files est supérieure à 1 :
+    const firstFiles = missingFiles.slice(0, missingFiles.length -1); //On stocke les premières valeurs dans la variable
+    const lastFile = missingFiles[missingFiles.length -1]; //On stocke la dernière valeur dans la variable
+    console.log("- il manque : " + firstFiles.join(", ") + " et " + lastFile); // On combine les deux variables pour afficher les fichiers avec "," et "et"
+  }
 }
+  //Affichage compteur en pourcentage des fichiers initialisés :
 
 console.log(
   "\x1b[95m " +
-    Math.round((acheviedProject / numberProject) * 100) +
+    Math.round((acheviedProject / numberProject) * 100) + //calcule du pourcentage arrondi à l'entier supérieur grâce à math.round
     " % " +
     "de projets initialisés correctement (" +
     acheviedProject +
