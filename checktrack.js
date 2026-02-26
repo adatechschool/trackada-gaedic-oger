@@ -21,9 +21,9 @@ const adaPath = join(home, "documents", "ada"); // Je déclare une variable pour
 
 //Je veux vérifier si mon dossier principal ada existe :
 if (existsSync(adaPath)) {
-  console.log("✅ \x1b[32m Dossier ada \x1b[0m");
+  console.log(`✅ \x1b[32m Dossier ada \x1b[0m`);
 } else {
-  console.log("❌ Dossier ada");
+  console.log(`❌ Dossier ada`);
 }
 
 //Pour compteur de progression : Je déclare une variable pour stocker le nombre de projets contenus dans le fichier
@@ -43,18 +43,18 @@ for (let project of track.projects) {
 
   if (existsSync(projectPath)) {
     //si le chemin du projet existe :
-    console.log("✅ \x1b[32m Dossier du projet : " + project.name + " \x1b[0m"); // affiche ok
+    console.log(`✅ \x1b[32m Dossier du projet : ${project.name}\x1b[0m`); // affiche ok
     if (existsSync(gitPath)) {
       //si le chemin du git existe (on affiche rien)
     } else {
       //sinon
-      console.log("- le repository git n'est pas initialisé"); //affiche que git n'est pas initialisé
-      projectReady = false;
+      console.log(`- le repository git n'est pas initialisé`); //affiche que git n'est pas initialisé
+      projectReady = false; //indique que le projet n'est pas prêt
     }
   } else {
     //sinon
-    console.log("❌ Dossier du projet : " + project.name); //affiche le dossier manquant
-    console.log("- le dossier n'existe pas ou n'est pas nommé correctement");
+    console.log(`❌ Dossier du projet : ${project.name}`); //affiche le dossier manquant
+    console.log(`- le dossier n'existe pas ou n'est pas nommé correctement`);
     projectReady = false;
   }
   let missingFiles = [];
@@ -76,27 +76,19 @@ for (let project of track.projects) {
     acheviedProject += 1; //J'itère dans ma variable pour chaque projets réalisés si tous les chemins existent.
   }
 
-
-
   //Si missing files n'est pas vide, alors seulement on affiche le console log sous certaines conditions
   if (missingFiles.length ===1) { //Si missing files est strictement egal à 1
     //On affiche la seule valeur de l'array à l'index 0:
-    console.log("- il manque :" + missingFiles[0])
+    console.log(`- il manque :  ${missingFiles[0]}`)
   } else if (missingFiles.length >1) { //sinon si missing files est supérieure à 1 :
     const firstFiles = missingFiles.slice(0, missingFiles.length -1); //On stocke les premières valeurs dans la variable
     const lastFile = missingFiles[missingFiles.length -1]; //On stocke la dernière valeur dans la variable
-    console.log("- il manque : " + firstFiles.join(", ") + " et " + lastFile); // On combine les deux variables pour afficher les fichiers avec "," et "et"
+    console.log(`- il manque : ${firstFiles.join(", ")} et ${ lastFile}`); // On combine les deux variables pour afficher les fichiers avec "," et "et"
   }
 }
   //Affichage compteur en pourcentage des fichiers initialisés :
 
 console.log(
-  "\x1b[95m " +
-    Math.round((acheviedProject / numberProject) * 100) + //calcule du pourcentage arrondi à l'entier supérieur grâce à math.round
-    " % " +
-    "de projets initialisés correctement (" +
-    acheviedProject +
-    "/" +
-    numberProject +
-    ")\x1b[0m",
+  `\x1b[95m ${Math.round((acheviedProject / numberProject) * 100)} % de projets initialisés correctement (${
+    acheviedProject} / ${numberProject} ).\x1b[0m`
 );
